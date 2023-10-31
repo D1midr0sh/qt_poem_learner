@@ -1,0 +1,5 @@
+[flake8]
+ignore = N802
+
+inline-quotes = double
+import-order-style = google
