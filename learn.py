@@ -11,6 +11,8 @@ class Learn(QWidget):
         self.count = -1
         self.proceedButton.clicked.connect(self.start_learning)
         self.checkButton.clicked.connect(self.check_correct)
+        self.next.clicked.connect(self.start_learning)
+        self.again.clicked.connect(self.start_checking)
 
     def setVariables(self, poem: list, verse_size: int):
         self.verse_size = verse_size
@@ -18,6 +20,7 @@ class Learn(QWidget):
         self.needed = algorithm(self.poem)
 
     def start_learning(self):
+        self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(0))
         self.checking.setText("")
         self.output.setFont(QFont("MS Shell Dlg", 24))
         self.count += 1
@@ -32,18 +35,22 @@ class Learn(QWidget):
                 self.output.setFont(QFont("MS Shell Dlg", 8))
             else:
                 self.output.setFont(QFont("MS Shell Dlg", 16))
-            self.label.setText("Повторение")
-            self.proceedButton.setVisible(False)
-            tim = QtCore.QTimer()
-            tim.setInterval(15000)
-            tim.start()
-            while tim.isActive():
-                self.checking.setText(f"Осталось {tim.remainingTime() // 1000} секунд.")
-                if tim.remainingTime() < 10:
-                    tim.stop()
-                QtCore.QCoreApplication.processEvents()
-            self.proceedButton.setVisible(True)
-            self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(1))
+            self.start_checking()
+
+    def start_checking(self):
+        self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(0))
+        self.label.setText("Повторение")
+        self.proceedButton.setVisible(False)
+        tim = QtCore.QTimer()
+        tim.setInterval(15000)
+        tim.start()
+        while tim.isActive():
+            self.checking.setText(f"Осталось {tim.remainingTime() // 1000} секунд.")
+            if tim.remainingTime() < 10:
+                tim.stop()
+            QtCore.QCoreApplication.processEvents()
+        self.proceedButton.setVisible(True)
+        self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(1))
 
     def check_correct(self):
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(2))
@@ -74,6 +81,19 @@ class Learn(QWidget):
             .replace(")", "")
             .lower()
         )
-        self.result.setText(
-            f"Отношение правильности: {round(similar(to_check_with, ch) * 100, 2)}%"
-        )
+        text = f"Отношение правильности: {round(similar(to_check_with, ch) * 100, 2)}%"
+        if similar(to_check_with, ch) > 0.75:
+            self.result.setStyleSheet("color: green;")
+            self.again.setVisible(False)
+            text += "\nПрекрасная работа! Ты можешь продолжить изучение."
+        elif similar(to_check_with, ch) > 0.5:
+            self.result.setStyleSheet("color: orange;")
+            text += (
+                "\nНе очень хороший результат. Если хочешь, можешь повторить попытку."
+            )
+            self.next.setVisible(True)
+        else:
+            self.result.setStyleSheet("color: red;")
+            self.next.setVisible(False)
+            text += "\nТы сделал много ошибок. Тебе придётся повторить попытку."
+        self.result.setText(text)
