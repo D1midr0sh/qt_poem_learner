@@ -165,7 +165,7 @@ class Learn(QWidget):
             self.again.setVisible(True)
             text += "\nТы сделал много ошибок. Тебе придётся повторить попытку."
         self.result.setText(text)
-    
+
     def exit_to_main_menu(self):
         if self.m is None:
             self.m = main.Main()
