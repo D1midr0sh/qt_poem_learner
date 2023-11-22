@@ -95,7 +95,7 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>30</x>
         <y>0</y>
         <width>801</width>
         <height>101</height>
@@ -211,6 +211,9 @@
         <pointsize>16</pointsize>
        </font>
       </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
       <property name="value">
        <number>4</number>
       </property>
@@ -263,6 +266,27 @@
       </property>
       <property name="text">
        <string>Готово</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="errorLabel">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>340</y>
+        <width>281</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
      </widget>
     </widget>

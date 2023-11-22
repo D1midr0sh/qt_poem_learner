@@ -1,3 +1,5 @@
+import sqlite3
+
 import main
 from PyQt5 import QtCore, uic
 from PyQt5.QtGui import QFont
@@ -11,15 +13,19 @@ class Learn(QWidget):
         uic.loadUi("designs/learn.ui", self)
         self.count = -1
         self.m = None
+        self.con = sqlite3.connect("database.sqlite")
+        self.cur = self.con.cursor()
+        self.ratios = []
         self.proceedButton.clicked.connect(self.start_learning)
         self.checkButton.clicked.connect(self.check_correct)
         self.next.clicked.connect(self.start_learning)
         self.again.clicked.connect(self.start_checking)
 
-    def setVariables(self, poem: list, verse_size: int):
+    def setVariables(self, poem: list, verse_size: int, cur_id: int):
         self.verse_size = verse_size
         self.poem = list(divide(poem, verse_size))
         self.needed = algorithm(self.poem)
+        self.id = cur_id
 
     def start_learning(self):
         """
@@ -83,7 +89,7 @@ class Learn(QWidget):
         self.label.setText("Повторение")
         self.proceedButton.setVisible(False)
         tim = QtCore.QTimer()
-        tim.setInterval(15000)
+        tim.setInterval(10000)
         tim.start()
         while tim.isActive():
             self.checking.setText(f"Осталось {tim.remainingTime() // 1000} секунд.")
@@ -141,6 +147,7 @@ class Learn(QWidget):
             .lower()
         )
         text = f"Отношение правильности: {round(similar(to_check_with, ch) * 100, 2)}%"
+        self.ratios.append(similar(to_check_with, ch))
         if similar(to_check_with, ch) > 0.75:
             self.result.setStyleSheet("color: green;")
             self.again.setVisible(False)
@@ -167,7 +174,12 @@ class Learn(QWidget):
         self.result.setText(text)
 
     def exit_to_main_menu(self):
+        req = "UPDATE poem SET wrong_ratio = "
+        req += f"{sum(self.ratios) / len(self.ratios)} WHERE id = {self.id}"
+        self.cur.execute(req)
         if self.m is None:
             self.m = main.Main()
+        self.con.commit()
+        self.con.close()
         self.hide()
         self.m.show()
