@@ -20,5 +20,10 @@ class Stats(QWidget):
         self.lastPoem.setText(f"Последний изученный стих: {poem[1]}\nАвтор: {poem[2]}")
         self.cur.execute("""SELECT AVG(wrong_ratio) FROM poem""")
         avg = round(self.cur.fetchone()[0], 2)
-        print(avg)
         self.avgRatio.setText(f"Средний коэффициент правильности за все стихи: {avg}")
+        self.backButton.clicked.connect(self.exit_to_main_menu)
+
+    def exit_to_main_menu(self):
+        self.con.close()
+        self.hide()
+        main.Main().show()

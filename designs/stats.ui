@@ -49,6 +49,24 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="backButton">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>520</y>
+     <width>201</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Назад</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
