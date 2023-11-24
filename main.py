@@ -74,7 +74,9 @@ class Main(QMainWindow):
         if self.w is None:
             self.w = learn.Learn()
         self.hide()
-        self.w.setVariables(self.poemEdit.toPlainText().split("\n"), self.lines.value(), id)
+        self.w.setVariables(
+            self.poemEdit.toPlainText().split("\n"), self.lines.value(), id
+        )
         self.w.show()
         self.con.close()
 

@@ -4,13 +4,14 @@ import main
 from PyQt5 import QtCore, uic
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget
-from ut import algorithm, divide, similar
+from ut import algorithm, divide, find_mistakes, number_declination, similar
 
 
 class Learn(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi("designs/learn.ui", self)
+        self.mistakes = 0
         self.count = -1
         self.m = None
         self.con = sqlite3.connect("database.sqlite")
@@ -171,11 +172,27 @@ class Learn(QWidget):
             self.next.setVisible(False)
             self.again.setVisible(True)
             text += "\nТы сделал много ошибок. Тебе придётся повторить попытку."
+        mistakes, count_mists, difference = find_mistakes(ch, to_check_with)
+        if count_mists > 0:
+            text += "\n Ты неправильно написал"
+            text += f" {count_mists} {number_declination(count_mists)}:"
+            text += "\n Правильно - неправильно"
+        for key in mistakes:
+            text += f"\n...{key}... - ..{mistakes[key]}..."
+        if difference > 0:
+            text += f"\nТы написал на {difference} {number_declination(difference)}"
+            text += " больше, чем нужно."
+        if difference < 0:
+            text += f"\nТы написал на {-difference} {number_declination(-difference)}"
+            text += " меньше, чем нужно."
+        self.mistakes += count_mists
         self.result.setText(text)
 
     def exit_to_main_menu(self):
         req = "UPDATE poem SET wrong_ratio = "
         req += f"{sum(self.ratios) / len(self.ratios)} WHERE id = {self.id}"
+        self.cur.execute(req)
+        req = f"UPDATE poem SET mistakes = {self.mistakes}"
         self.cur.execute(req)
         if self.m is None:
             self.m = main.Main()
