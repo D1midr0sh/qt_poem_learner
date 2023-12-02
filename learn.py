@@ -99,6 +99,7 @@ class Learn(QWidget):
             QtCore.QCoreApplication.processEvents()
         self.proceedButton.setVisible(True)
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(1))
+        self.check.clear()
 
     def check_correct(self):
         """

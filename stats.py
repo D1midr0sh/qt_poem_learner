@@ -27,7 +27,7 @@ class Stats(QWidget):
         self.cur.execute(req)
         poem = self.cur.fetchone()
         self.leastMistakes.setText(
-            f"Стих с наименьшим количеством ошибок ({poem[4]}): {poem[1]}, {poem[2]}"
+            f"Стих с наименьшим количеством ошибок ({poem[4]}):\n{poem[1]}, {poem[2]}"
         )
         req = "SELECT AVG(mistakes) FROM poem"
         self.cur.execute(req)
