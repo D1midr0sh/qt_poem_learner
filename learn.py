@@ -190,6 +190,9 @@ class Learn(QWidget):
         self.result.setText(text)
 
     def exit_to_main_menu(self):
+        """
+        This is function to exit to main menu of an application.
+        """
         req = "UPDATE poem SET wrong_ratio = "
         req += f"{sum(self.ratios) / len(self.ratios)} WHERE id = {self.id}"
         self.cur.execute(req)
