@@ -152,6 +152,7 @@ class Learn(QWidget):
         if similar(to_check_with, ch) > 0.75:
             self.result.setStyleSheet("color: green;")
             self.again.setVisible(False)
+            self.next.setVisible(True)
             text += "\nПрекрасная работа! Ты можешь продолжить изучение."
         elif len(ch.split("\n")) <= len(self.needed[self.count]) // 2:
             self.result.setStyleSheet("color: red;")
@@ -179,11 +180,11 @@ class Learn(QWidget):
             text += "\n Правильно - неправильно"
         for key in mistakes:
             text += f"\n...{key}... - ..{mistakes[key]}..."
-        if difference > 0:
-            text += f"\nТы написал на {difference} {number_declination(difference)}"
-            text += " больше, чем нужно."
         if difference < 0:
-            text += f"\nТы написал на {-difference} {number_declination(-difference)}"
+            text += f"\nТы написал на {-difference} {number_declination(difference)}"
+            text += " больше, чем нужно."
+        if difference > 0:
+            text += f"\nТы написал на {difference} {number_declination(-difference)}"
             text += " меньше, чем нужно."
         self.mistakes += count_mists
         self.result.setText(text)

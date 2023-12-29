@@ -53,9 +53,9 @@
     <widget class="QLabel" name="output">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>50</x>
        <y>130</y>
-       <width>431</width>
+       <width>761</width>
        <height>311</height>
       </rect>
      </property>
@@ -68,7 +68,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нажми &amp;quot;Продолжить&amp;quot;&lt;/p&gt;&lt;p&gt;для начала&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      <set>Qt::AlignHCenter|Qt::AlignTop</set>
      </property>
     </widget>
     <widget class="QPushButton" name="proceedButton">
