@@ -20,14 +20,14 @@ class Stats(QWidget):
         self.cur.execute("""SELECT * FROM poem WHERE id = ?""", (cur_id,))
         poem = self.cur.fetchone()
         self.lastPoem.setText(f"Последний изученный стих: {poem[1]}\nАвтор: {poem[2]}")
-        self.cur.execute("""SELECT AVG(wrong_ratio) FROM poem""")
+        self.cur.execute("SELECT AVG(wrong_ratio) FROM poem")
         avg = round(self.cur.fetchone()[0], 2)
         self.avgRatio.setText(f"Средний коэффициент правильности за все стихи: {avg}")
         req = "SELECT * FROM poem WHERE mistakes = (SELECT MIN(mistakes) FROM poem)"
         self.cur.execute(req)
         poem = self.cur.fetchone()
         self.leastMistakes.setText(
-            f"Стих с наименьшим количеством ошибок ({poem[4]}): {poem[1]}, {poem[2]}"
+            f"Стих с наименьшим количеством ошибок ({poem[4]}):\n{poem[1]}, {poem[2]}"
         )
         req = "SELECT AVG(mistakes) FROM poem"
         self.cur.execute(req)
