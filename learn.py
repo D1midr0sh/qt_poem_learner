@@ -99,6 +99,7 @@ class Learn(QWidget):
             QtCore.QCoreApplication.processEvents()
         self.proceedButton.setVisible(True)
         self.stackedWidget.setCurrentWidget(self.stackedWidget.widget(1))
+        self.check.clear()
 
     def check_correct(self):
         """
@@ -189,6 +190,9 @@ class Learn(QWidget):
         self.result.setText(text)
 
     def exit_to_main_menu(self):
+        """
+        This is a function to exit to main menu of an application.
+        """
         req = "UPDATE poem SET wrong_ratio = "
         req += f"{sum(self.ratios) / len(self.ratios)} WHERE id = {self.id}"
         self.cur.execute(req)
